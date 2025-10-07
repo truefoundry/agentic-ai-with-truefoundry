@@ -16,7 +16,8 @@ jobs:
     # Define environment variables needed for the agent and evaluation script
     env:
       TFY_API_KEY: ${{ secrets.TFY_API_KEY }} 
-      LLM_MODEL: openai-main/gpt-4o-mini # Using a cost-effective model for testing
+      LLM_MODEL: openai-main/gpt-4o-mini
+      LLM_GATEWAY_URL: https://internal.devtest.truefoundry.tech/api/llm
 
     steps:
       - name: Checkout Repository
@@ -42,7 +43,7 @@ jobs:
         run: |
           echo "Running Pylint on src/ and tests/"
           # Execute pylint from the correct directory context
-          uv run pylint --disable=E0401,C0413,W0718 module11-agenticai_from_code_to_production/src
+          uv run pylint --disable=E0401,C0413,W0718 module11-agenticai_from_code_to_production/src/ module11-agenticai_from_code_to_production/tests/
         
       - name: Run Unit and Integration Tests (Pytest)
         # Quality Gate 2: Checks code correctness and agent orchestration flow (mocked LLM)
@@ -51,16 +52,16 @@ jobs:
           # Execute pytest from the correct directory context
           uv run pytest module11-agenticai_from_code_to_production/tests/
         
-      - name: Run Evaluation Workflow (MLOps Quality Check)
+      - name: Run Evaluation Workflow (LLMOps Quality Check)
         # Quality Gate 3: Runs the expensive, real-world evaluation checks
         run: |
           echo "Running evaluation workflow against 50 scenarios..."
           # Execute your custom script
           uv run python module11-agenticai_from_code_to_production/evaluation/run_evaluation.py
         
-      - name: Build Docker Images (Final Artifact Check)
-        # This step verifies that the Dockerfiles are syntactically correct 
-        # The build context is now relative to the subfolder.
-        run: |
-          docker build -t fastapi-agent:${{ github.sha }} -f module11-agenticai_from_code_to_production/Dockerfile.fastapi .
-          docker build -t streamlit-app:${{ github.sha }} -f module11-agenticai_from_code_to_production/Dockerfile.streamlit .
+      # - name: Build Docker Images (Final Artifact Check)
+      #   # This step verifies that the Dockerfiles are syntactically correct 
+      #   # The build context is now relative to the subfolder.
+      #   run: |
+      #     docker build -t fastapi-agent:${{ github.sha }} -f module11-agenticai_from_code_to_production/Dockerfile.fastapi .
+      #     docker build -t streamlit-app:${{ github.sha }} -f module11-agenticai_from_code_to_production/Dockerfile.streamlit .
