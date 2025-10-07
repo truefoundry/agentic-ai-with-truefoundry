@@ -13,7 +13,7 @@ memory = MemorySaver()
 
 # 2. Compile the ReAct Agent
 AGENT = create_react_agent(
-    model=llm, tools=tools, state_modifier=prompt_template, checkpointer=memory
+    model=llm, tools=tools, prompt=prompt_template, checkpointer=memory
 )
 
 
