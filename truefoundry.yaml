@@ -1,0 +1,49 @@
+name: resmed-support-agent-backend
+type: service
+image:
+  type: build
+  build_spec:
+    type: dockerfile
+    dockerfile_path: ./module11-agenticai_from_code_to_production/Dockerfile.fastapi
+    build_context_path: ./module11-agenticai_from_code_to_production/
+  # `build_source.branch_name` and `build_source.ref` will automatically be patched during deployment.
+  build_source:
+    ref: 03503151cc990c6b9e78d78a2b5d40398cb59682
+    type: git
+    repo_url: https://github.com/truefoundry/agentic-ai-with-truefoundry
+    branch_name: main
+env:
+  LLM_MODEL: openai-main/gpt-4o-mini
+  TFY_API_KEY: tfy-secret://truefoundry:anant-secret:TFY_API_KEY
+  LLM_GATEWAY_URL: https://internal.devtest.truefoundry.tech/api/llm
+ports:
+  - host: >-
+      resmed-support-agent-backend-anant-ws-8000.tfy-usea1-ctl.devtest.truefoundry.tech
+    port: 8000
+    expose: true
+    protocol: TCP
+replicas: 1
+resources:
+  node:
+    type: node_selector
+    capacity_type: spot_fallback_on_demand
+  cpu_limit: 0.5
+  cpu_request: 0.2
+  memory_limit: 500
+  memory_request: 200
+  ephemeral_storage_limit: 2000
+  ephemeral_storage_request: 1000
+auto_shutdown:
+  wait_time: 900
+workspace_fqn: tfy-usea1-devtest:anant-ws
+liveness_probe:
+  config:
+    path: /health-check
+    port: 8000
+    type: http
+  period_seconds: 10
+  timeout_seconds: 1
+  failure_threshold: 3
+  success_threshold: 1
+  initial_delay_seconds: 0
+allow_interception: false
