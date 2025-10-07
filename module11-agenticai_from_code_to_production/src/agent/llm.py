@@ -10,7 +10,7 @@ llm = ChatOpenAI(
     streaming=False,
     api_key=os.getenv("TFY_API_KEY"),
     base_url=os.getenv(
-        "LLM_GATEWAY_URL", 
+        "LLM_GATEWAY_URL",
         "https://llm-gateway.truefoundry.com/api/inference/openai"
     ),
 )

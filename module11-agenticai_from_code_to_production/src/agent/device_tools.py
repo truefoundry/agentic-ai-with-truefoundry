@@ -21,9 +21,9 @@ USER_DEVICES = DeviceData(
         ),
         # <<< NEW FEATURE: AirSense 11 >>>
         DeviceMetrics(
-            model_name="AirSense 11", 
-            usage_hours_last_week=35.0, 
-            avg_mask_leak_rate=45.0, 
+            model_name="AirSense 11",
+            usage_hours_last_week=35.0,
+            avg_mask_leak_rate=45.0,
             last_service_date="2025-05-20"
         ),
     ]
