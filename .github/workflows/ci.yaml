@@ -17,8 +17,7 @@ jobs:
     env:
       # These secrets are necessary for the LLM to run during the evaluation workflow
       TFY_API_KEY: ${{ secrets.TFY_API_KEY }} 
-      LLM_MODEL: openai-main/gpt-4o-mini
-      LLM_GATEWAY_URL: https://internal.devtest.truefoundry.tech/api/llm
+      LLM_MODEL: openai-main/gpt-4o-mini # Using a cost-effective model for testing
 
     steps:
       - name: Checkout Repository
@@ -30,7 +29,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          cache: 'uv' # Optimizes package installation with uv caching
+          # FIX: Removed 'cache: uv' because it is not a supported option for this action.
+          # We rely on 'pip install uv' and 'uv sync' in the next step.
 
       - name: Install Dependencies
         run: |
