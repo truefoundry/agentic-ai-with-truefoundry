@@ -15,7 +15,6 @@ jobs:
     
     # Define environment variables needed for the agent and evaluation script
     env:
-      # These secrets are necessary for the LLM to run during the evaluation workflow
       TFY_API_KEY: ${{ secrets.TFY_API_KEY }} 
       LLM_MODEL: openai-main/gpt-4o-mini # Using a cost-effective model for testing
 
@@ -24,11 +23,11 @@ jobs:
         # Checks out the code into the correct subdirectory
         uses: actions/checkout@v4
         with:
-          # Checkout into the specific subfolder that contains src/ and tests/
+          # IMPORTANT: Checkout into the specific subfolder that contains src/ and tests/
           path: module11-agenticai_from_code_to_production 
       
       - name: Set up Python 3.13
-        # All subsequent run commands will execute from this directory context
+        # Sets up the correct Python environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
@@ -48,7 +47,7 @@ jobs:
         run: |
           echo "Running Pylint on src/ and tests/"
           # Execute pylint from the correct directory context
-          pylint src/
+          uv run pylint src/ tests/
         
       - name: 🧪 Run Unit and Integration Tests (Pytest)
         # Quality Gate 2: Checks code correctness and agent orchestration flow (mocked LLM)
