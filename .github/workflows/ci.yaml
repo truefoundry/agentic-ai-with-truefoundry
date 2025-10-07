@@ -44,8 +44,8 @@ jobs:
         # Quality Gate 1: Checks for structural errors and code style
         run: |
           echo "Running Pylint on src/ and tests/"
-          # Execute pylint on your application code
-          uv run pylint src/ tests/
+          # FIX: Use 'uv run python -m pylint' to execute the module directly
+          uv run python -m pylint src/ tests/
         
       - name: 🧪 Run Unit and Integration Tests (Pytest)
         # Quality Gate 2: Checks code correctness and agent orchestration flow (mocked LLM)
