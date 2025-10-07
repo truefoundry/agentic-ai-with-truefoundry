@@ -1,0 +1,11 @@
+jiomart_products_database.csv
+draft/
+images/
+.env
+.venv/
+.pre-commit-config.yaml
+*.DS_STORE
+*.ipynb_checkpoints/
+checkpoint.sqlite
+master_presentation.pptx
+~$master_presentation.pptx
