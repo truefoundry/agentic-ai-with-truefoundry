@@ -21,50 +21,55 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        # Checks out the code to the runner environment
+        # Checks out the code into the correct subdirectory
         uses: actions/checkout@v4
+        with:
+          # Checkout into the specific subfolder that contains src/ and tests/
+          path: module11-agenticai_from_code_to_production 
       
       - name: Set up Python 3.13
-        # Sets up the correct Python environment
+        # All subsequent run commands will execute from this directory context
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          # FIX: Removed 'cache: uv' because it is not a supported option for this action.
-          # We rely on 'pip install uv' and 'uv sync' in the next step.
 
       - name: Install Dependencies
+        # Use the working-directory key to execute the command inside the subfolder
+        working-directory: module11-agenticai_from_code_to_production
         run: |
           # Install uv globally
           pip install uv
           # Install all project dependencies using the lockfile
-          # This includes pytest, pylint, langgraph, and evaluation dependencies
           uv sync --frozen
 
       - name: 🧹 Run Static Code Analysis (Pylint)
         # Quality Gate 1: Checks for structural errors and code style
+        working-directory: module11-agenticai_from_code_to_production
         run: |
           echo "Running Pylint on src/ and tests/"
-          # FIX: Use 'uv run python -m pylint' to execute the module directly
-          uv run python -m pylint src/ tests/
+          # Execute pylint from the correct directory context
+          pylint src/
         
       - name: 🧪 Run Unit and Integration Tests (Pytest)
         # Quality Gate 2: Checks code correctness and agent orchestration flow (mocked LLM)
+        working-directory: module11-agenticai_from_code_to_production
         run: |
           echo "Running unit and integration tests..."
-          # Execute pytest on all tests in the tests/ directory
+          # Execute pytest from the correct directory context
           uv run pytest
         
       - name: 📊 Run Evaluation Workflow (MLOps Quality Check)
         # Quality Gate 3: Runs the expensive, real-world evaluation checks
-        # This verifies safety, faithfulness, and functional stability against the LLM
+        working-directory: module11-agenticai_from_code_to_production
         run: |
           echo "Running evaluation workflow against 50 scenarios..."
-          # Execute your custom evaluation script
+          # Execute your custom script
           uv run python evaluation/run_evaluation.py
         
       - name: 📦 Build Docker Images (Final Artifact Check)
         # This step verifies that the Dockerfiles are syntactically correct 
-        # and ready for the CD process, tagging the image with the commit SHA.
+        # The build context is now relative to the subfolder.
+        working-directory: module11-agenticai_from_code_to_production
         run: |
           docker build -t fastapi-agent:${{ github.sha }} -f Dockerfile.fastapi .
           docker build -t streamlit-app:${{ github.sha }} -f Dockerfile.streamlit .
