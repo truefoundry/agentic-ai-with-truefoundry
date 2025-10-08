@@ -72,4 +72,6 @@ async def health_check(request: Request) -> JSONResponse:
 
 # Run the server over HTTP - new change from earlier script
 if __name__ == "__main__":
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=8000)
+    mcp.settings.host = "0.0.0.0" #https://github.com/jlowin/fastmcp/issues/873
+    mcp.settings.port = 8000 #https://github.com/jlowin/fastmcp/issues/873
+    mcp.run(transport="streamable-http")
