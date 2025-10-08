@@ -62,14 +62,14 @@ code_writer_task = Task(
 
 
 # 3) Code interpreter agent (uses code interpreter tool from crewai)
-# code_interpreter_tool = CodeInterpreterTool(unsafe_mode=True)
+code_interpreter_tool = CodeInterpreterTool(unsafe_mode=True)
 
 code_execution_agent = Agent(
     role="Senior Code Execution Expert",
     goal="Review and execute the generated Python code by code writer agent to visualize stock data and fix any errors encountered. It can delegate tasks to code writer agent if needed.",
     backstory="You are a code execution expert. You are skilled at executing Python code.",
-    # tools=[code_interpreter_tool],
-    allow_code_execution=True,   # This automatically adds the CodeInterpreterTool
+    tools=[code_interpreter_tool],
+    # allow_code_execution=True,   # This automatically adds the CodeInterpreterTool
     allow_delegation=True,
     llm=llm,
     verbose=True,
