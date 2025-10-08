@@ -8,7 +8,7 @@ from crewai_tools import CodeInterpreterTool, FileReadTool
 
 from dotenv import load_dotenv
 
-load_dotenv()
+load_dotenv(override=True)
 
 class QueryAnalysisOutput(BaseModel):
     """Structured output for the query analysis task."""
@@ -16,9 +16,11 @@ class QueryAnalysisOutput(BaseModel):
     timeframe: str = Field(..., description="Time period (e.g., '1d', '1mo', '1y').")
     action: str = Field(..., description="Action to be performed (e.g., 'fetch', 'plot').")
 
+#Update the LLM initialization (basis CrewAI and TrueFoundry available integration) from earlier script
 llm = LLM(
-    model="openai/gpt-4o-mini",
-    base_url="https://api.openai.com/v1",
+    model=os.getenv("LLM_MODEL_CREWAI"),
+    base_url=os.getenv("LLM_GATEWAY_URL"),
+    api_key=os.getenv("TFY_API_KEY")
     # temperature=0.7
 )
 

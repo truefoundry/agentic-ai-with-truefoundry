@@ -2,8 +2,12 @@
 from mcp.server.fastmcp import FastMCP
 from financial_analyst import run_financial_analysis
 
-# create FastMCP instance
-mcp = FastMCP("financial-analyst")
+#New imports from earlier script
+from starlette.requests import Request
+from starlette.responses import JSONResponse
+
+# Create FastMCP instance
+mcp = FastMCP("financial-analyst", stateless_http=True) #New change from earlier script
 
 @mcp.tool()
 def analyze_stock(query: str) -> str:
@@ -60,22 +64,12 @@ def run_code_and_show_plot() -> str:
     with open('stock_analysis.py', 'r') as f:
         exec(f.read())
 
-# Run the server locally
+# Health endpoint for monitoring - new change from earlier script
+@mcp.custom_route("/health", methods=["GET"])
+async def health_check(request: Request) -> JSONResponse:
+    """Health check endpoint for monitoring server status."""
+    return JSONResponse({"status": "OK"})
+
+# Run the server over HTTP - new change from earlier script
 if __name__ == "__main__":
-    mcp.run(transport='stdio')
-
-
-# add this inside ./.cursor/mcp.json
-# {
-#     "mcpServers": {
-#         "financial-analyst": {
-#          "command": "uv",
-#             "args": [
-#                 "--directory",
-#                 "absolute/path/to/project_root",
-#                 "run",
-#                 "server.py"
-#             ]
-#         }
-#     }
-# }
+    mcp.run(transport="streamable-http", host="0.0.0.0", port=8000)
