@@ -3,7 +3,7 @@ name = "agentic_ai_with_truefoundry"
 version = "0.1.0"
 description = "This course offers a comprehensive introduction to Agentic AI for GenAI developers, along with covering usage of TrueFoundry's AI Gateway and Deployment features for deploying production-grade Agentic AI applications."
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "accelerate>=1.10.1",
     "anthropic>=0.51.0",
@@ -83,4 +83,11 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ipykernel>=6.29.5",
+]
+
+# aiortc was pulling av 14.x (sdist-only; needs ffmpeg). Prefer wheeled builds.
+[tool.uv]
+override-dependencies = [
+    "aiortc>=1.15.0",
+    "av>=16.0.1",
 ]
