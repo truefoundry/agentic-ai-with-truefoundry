@@ -20,7 +20,7 @@ from src.agent.graph import run_agent
 # for full, systematic scoring, but we implement basic checks here.
 
 # Define the file path for the scenarios (assuming it's in the same directory)
-SCENARIOS_FILE = "module11-agenticai_from_code_to_production/evaluation/eval_scenarios.json"
+SCENARIOS_FILE = os.path.join(os.path.dirname(__file__), "eval_scenarios.json")
 
 class EvaluationResult(object):
     """Simple container to hold results for a single test run."""
@@ -123,8 +123,7 @@ async def main():
     """Orchestrates the evaluation workflow."""
     print("--- Starting Agent Evaluation Workflow ---")
 
-    # Adjust path if 'evaluation' folder is in the root:
-    scenarios = load_scenarios("module11-agenticai_from_code_to_production/evaluation/eval_scenarios.json")
+    scenarios = load_scenarios(SCENARIOS_FILE)
 
     if not scenarios:
         return
