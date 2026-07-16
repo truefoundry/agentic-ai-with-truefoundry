@@ -9,8 +9,8 @@ import httpx
 # --- Configuration ---
 #Load environment variables
 load_dotenv()
-# Read the internal network URL (e.g., http://fastapi-agent:8000 provided by Docker Compose when testing locally)
-API_URL = os.getenv("AGENT_API_URL")
+# Backend URL: Compose sets http://fastapi-agent:8000; local default is localhost.
+API_URL = os.getenv("AGENT_API_URL", "http://localhost:8000")
 
 # Note: The location of this function might change in future Streamlit versions.
 # We keep it here to detect direct run vs. 'streamlit run'
@@ -75,7 +75,10 @@ async def process_input(user_input):
                     response_data = http_response.json()
 
             except httpx.HTTPStatusError as e:
-                error_detail = e.response.json().get('detail', 'Unknown error')
+                try:
+                    error_detail = e.response.json().get("detail", "Unknown error")
+                except ValueError:
+                    error_detail = (e.response.text or "Unknown error")[:200]
                 error_message = f"API Error: {e.response.status_code} - {error_detail}"
                 response_data = {"response": error_message}
             except Exception as e:
