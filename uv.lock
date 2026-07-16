@@ -8,6 +8,10 @@ resolution-markers = [
 ]
 
 [manifest]
+members = [
+    "agentic-ai-with-truefoundry",
+    "module11-agenticai-from-code-to-production-uv",
+]
 overrides = [
     { name = "aiortc", specifier = ">=1.15.0" },
     { name = "av", specifier = ">=16.0.1" },
@@ -3347,6 +3351,17 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/59/b0/92e7103f3b20646e255b699e2d0327ce53a3f250e44367a99dc8be0b7c7a/mmh3-5.2.0-cp313-cp313-win_amd64.whl", hash = "sha256:7fddccd4113e7b736706e17a239a696332360cbaddf25ae75b57ba1acce65081", size = 41600, upload-time = "2025-07-29T07:42:49.371Z" },
     { url = "https://files.pythonhosted.org/packages/99/22/0b2bd679a84574647de538c5b07ccaa435dbccc37815067fe15b90fe8dad/mmh3-5.2.0-cp313-cp313-win_arm64.whl", hash = "sha256:fa0c966ee727aad5406d516375593c5f058c766b21236ab8985693934bb5085b", size = 39349, upload-time = "2025-07-29T07:42:50.268Z" },
 ]
+
+[[package]]
+name = "module11-agenticai-from-code-to-production-uv"
+version = "0.1.0"
+source = { virtual = "module11-agenticai_from_code_to_production-uv" }
+dependencies = [
+    { name = "fastapi" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "fastapi", specifier = ">=0.115.8" }]
 
 [[package]]
 name = "monotonic"
