@@ -3,7 +3,7 @@ name: Deploy to TrueFoundry
 on:
   push:
     branches:
-      - 'chintan-fix-create_react_agent-issue'
+      - 'main'
 
 env:
   TFY_HOST: https://internal.devtest.truefoundry.tech
