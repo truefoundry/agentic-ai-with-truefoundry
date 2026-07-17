@@ -24,11 +24,11 @@ jobs:
         # Checks out the code into the correct subdirectory
         uses: actions/checkout@v4
       
-      - name: Set up Python 3.13
+      - name: Set up Python 3.12
         # Sets up the correct Python environment
         uses: actions/setup-python@v5
         with:
-          python-version: '3.13'
+          python-version: '3.12'
 
       - name: Install Dependencies
         # Use the working-directory key to execute the command inside the subfolder

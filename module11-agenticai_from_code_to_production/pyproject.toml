@@ -3,7 +3,7 @@ name = "resmed-support-agent"
 version = "0.1.0"
 description = "A production-ready, conversational AI agent that can diagnose common issues and provide compliance checks for a simulated fleet of cloud-connected ResMed CPAP devices."
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = ">=3.13,<3.14"
 dependencies = [
     "fastapi>=0.115.8",
     "langchain-openai>=0.3.6",
